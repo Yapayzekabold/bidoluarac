@@ -1,0 +1,27 @@
+name: WordPress Kurulumu
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: WordPress'i İndir ve Ayarla
+      run: |
+        git clone https://github.com/Ai-Araç-Listeleme/bidoluarac.git /tmp/wordpress
+        mv /tmp/wordpress/* .
+        rm -rf /tmp/wordpress
+        cp wp-config-sample.php wp-config.php
+        sed -i 's/database_name_here/veritabani_adi/g' wp-config.php
+        sed -i 's/username_here/kullanici_adi/g' wp-config.php
+        sed -i 's/password_here/sifre/g' wp-config.php
+
+    - name: Yükleme Tamamlandı
+      run: echo "WordPress başarıyla yüklendi!"
